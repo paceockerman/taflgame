@@ -1,4 +1,5 @@
 var socket = null
+var isHost = false
 
 function connectToServer(roomNumber = 0) {
     roomNumber = prompt("Enter Room Number")
@@ -20,10 +21,14 @@ function connectToServer(roomNumber = 0) {
         incoming = JSON.parse(event.data)
         eventType = incoming.event
         data = incoming.data
+        console.log(data)
 
         switch (eventType) {
             case 'system:member_list':
-                // this is when you join the room
+                if (data.members.length == 1) {
+                    isHost = true
+                    playerNumber = 0
+                }
                 break;
             case 'system:member_joined':
                 // this is when someone else joins (triggers on self join)
@@ -38,8 +43,10 @@ function connectToServer(roomNumber = 0) {
                             "timerIncrement": timerIncrement
                         }
                     }))
-                    startTimers()
+                    if (isTimedGame)
+                        startTimers()
                     addClickListeners()
+                    drawCanvas()
                 }
                 break;
             case 'system:member_left':
@@ -48,9 +55,11 @@ function connectToServer(roomNumber = 0) {
                 break;
             case 'game:init':
                 // how to pass game info
-                playerNumber = data.playerNumber
-                timerLength = data.timerLength
-                timerIncrement = data.timerIncrement
+                if (!isHost) {
+                    playerNumber = data.playerNumber
+                    timerLength = data.timerLength
+                    timerIncrement = data.timerIncrement
+                }
                 break;
             case 'game:move':
                 game.applyMove(data.move, true)

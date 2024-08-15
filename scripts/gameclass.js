@@ -30,6 +30,14 @@ class Game {
         return this.state
     }
 
+    end(winner) {
+        console.log(`Player ${winner + 1} has won the game!`)
+        playerNumber = -1
+        for (const timer in timers) {
+            timers[timer].stop()
+        }
+    }
+
     get state() {
         return this.states[this.states.length - 1]
     }

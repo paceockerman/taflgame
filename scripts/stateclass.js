@@ -30,8 +30,10 @@ class State {
     }
 
     getEligiblePieces() {
+        // all pieces are inactive if its not your turn
         let activePieces = []
         let inactivePieces = []
+
         // Iterate over the board
         for (let x = 0; x <= 10; x++) {
             for (let y = 0; y <= 10; y++) {
@@ -49,6 +51,9 @@ class State {
                     inactivePieces.push([x, y])
             }
         }
+        if (playerNumber != this.currentTurn)
+            return [[], activePieces.concat(inactivePieces)]
+
         return [activePieces, inactivePieces]
     }
 
@@ -63,6 +68,14 @@ class State {
             return true
         else
             return -1
+    }
+
+    isCurrentLegalMove(x_i, y_i, x_f, y_f) {
+        var isLegal = this.isLegalMove(x_i, y_i, x_f, y_f)
+        if (isLegal == -1 || this.currentTurn != playerNumber) {
+            return -1
+        }
+        return isLegal
     }
 
     isNonzero(x, y) {
@@ -95,6 +108,9 @@ class State {
             this.winner = 1
         if (value == 4 && (x_f == 0 || x_f == 10 || y_f == 0 || y_f == 10))
             this.winner = 0
+        if (this.winner != null) {
+            game.end(this.winner)
+        }
         this.board[x_f][y_f] = value
         this.board[x_i][y_i] = 0
 
@@ -128,12 +144,12 @@ class State {
         *   - The piece does not belong to the active player
         *   - There has already been a move, and this is the centerpiece
         *   - There was a previously played action of this piece
+        *   - It's not your turn
         */
         let v = this.board[x][y]
         let r = this.recentMove
         if (v % 2 != this.currentTurn || (!this.hasSecondMove && v == 4) || (r.length > 0 && r[2] == x && r[3] == y))
             return []
-
         let moves = []
         let newX, newY
         // right, left, up, down
@@ -158,10 +174,10 @@ class State {
         /* Return an empty array if any of the following are met
          *  - the piece on the square does not belong to the active player
          *  - the player has already taken a first action
+         *  - It's not your turn
         */
         if (this.board[x][y] % 2 != this.currentTurn || !this.hasSecondMove)
             return []
-
         let moves = []
         let newX, newY
         let teamOfCurrentPlayer = this.board[x][y] % 2

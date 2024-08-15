@@ -28,12 +28,14 @@ board = [
 let game = new Game(board)
 
 // Setup timer
-var isTimedGame = true
-var timerLength = 120
-var timerIncrement = 10
+var isTimedGame = false
+var timerLength = 5
+var timerIncrement = 5
 var timers = [new easytimer.Timer(), new easytimer.Timer()]
 for (const timer in timers) {
     timers[timer].addEventListener('secondsUpdated', (e) => updateCirclePercent(timer));
+    // game.end accepts the winning number
+    timers[timer].addEventListener('targetAchieved', (e) => game.end(1 - timer))
 }
 function updateCirclePercent(player) {
     let seconds = timers[player].getTotalTimeValues().seconds
@@ -104,5 +106,3 @@ function addClickListeners() {
         onClickActions(x, y)
     })
 }
-
-//startGame()

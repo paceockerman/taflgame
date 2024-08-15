@@ -92,7 +92,7 @@ function drawCanvas(selectedPiece = null) {
     }
     highlightSquares(lastMoveHighlights, "green", 0.2)
     highlightSquares(trailHighlights, "green", 0.1)
-    if (selectedPiece != null) {
+    if (selectedPiece != null && game.state.currentTurn == playerNumber) {
         let legalStraightMoves = game.state.getLegalStraightMoves(...selectedPiece)
         let legalAttackMoves = game.state.getLegalAttackMoves(...selectedPiece)
         highlightSquares(legalStraightMoves)
@@ -119,7 +119,7 @@ function onClickActions(x, y) {
     // If there is a piece selected...
     if (selectedPiece != null) {
         // ... and a legal move played, do the action
-        let isLegal = game.state.isLegalMove(...selectedPiece, x, y)
+        let isLegal = game.state.isCurrentLegalMove(...selectedPiece, x, y)
         if (isLegal != -1) {
             // Note that isLegal doubles as isAttack
             game.applyMove([...selectedPiece, x, y, isLegal])
