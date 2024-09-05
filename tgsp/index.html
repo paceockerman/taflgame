@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+    <!-- Boxes Container -->
+    <div class="container" id="boxesContainer">
+
+        <div class="box up" id="box1" ondrop="drop(event)" ondragover="allowDrop(event)">0</div>
+        <div class="box up" id="box2" ondrop="drop(event)" ondragover="allowDrop(event)">0</div>
+        <div class="box down" id="box3" ondrop="drop(event)" ondragover="allowDrop(event)">0</div>
+        <div class="box down" id="box4" ondrop="drop(event)" ondragover="allowDrop(event)">0</div>
+    </div>
+    <!-- Cards Container -->
+    <div class="container" id="objectsContainer"></div>
+    <button class="pass-button" onclick="fillHand()">Fill Hand</button>
+
+
+    <br><br><br>
+    <div class="container">
+        <div class="box" id="numleft"></div>
+    </div>
+
+    <div class="hover">Hover to see remaining cards.</div>
+    <div id="cardsleft" class="reveal">Pranked!</div>
+    <textarea id="w3review" name="w3review" rows="20" cols="50" placeholder="Notes:"></textarea>
+
+
+
+    <script type="text/javascript" src="script.js"></script>
+
+</body>
+
+<style>
+    .hover:hover+.reveal {
+        display: block;
+        visibility: visible;
+        text-align: center;
+    }
+
+    .reveal {
+        visibility: hidden;
+        text-align: center;
+        margin-top: 1%;
+    }
+
+    .hover {
+        margin-top: 1%;
+        text-align: center;
+        font-size: 25pt;
+        background-color: greenyellow;
+    }
+
+    textarea {
+        resize: none;
+        width: 90%;
+        margin-left: 5%;
+        margin-top: 2%;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        /* Center the content */
+        margin: 20px 0;
+        /* Reduce vertical margin */
+        gap: 10px;
+        /* Add a small gap between the boxes */
+    }
+
+    .pass-button {
+        display: block;
+        /* Center the button */
+        margin: 20px auto;
+        /* Add space above and below the button */
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .box,
+    .object {
+        width: 100px;
+        height: 100px;
+        border: 2px solid #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        margin: 0;
+        /* Remove extra margin */
+    }
+
+    .object {
+        background-color: #a3c0f0;
+        cursor: grab;
+    }
+
+    .yellow {
+        background-color: yellow;
+    }
+
+    .box {
+        background-color: #e3e3e3;
+    }
+
+    .down {
+        background: transparent url(images/GreenDownArrow.svg.png) no-repeat center center;
+        background-size: contain;
+        color: white;
+    }
+
+    .up {
+        background: transparent url(images/Green-Up-Arrow.svg.png) no-repeat center center;
+        background-size: contain;
+        color: white;
+    }
+</style>
+
+</html>
