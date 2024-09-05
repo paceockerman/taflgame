@@ -112,5 +112,5 @@ function displayGame() {
     document.getElementById("box3").innerHTML = discards[2]
     document.getElementById("box4").innerHTML = discards[3]
     document.getElementById("numleft").innerHTML = deck.length + " cards"
-    document.getElementById("cardsleft").innerHTML = deck.sort((a, b) => a - b).join(", ")
+    document.getElementById("cardsleft").innerHTML = deck.toSorted((a, b) => a - b).join(", ")
 }
